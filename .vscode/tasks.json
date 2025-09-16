@@ -1,0 +1,73 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Debug",
+      "type": "shell",
+      "command": "cmake -B build -DCMAKE_BUILD_TYPE=Debug && cmake --build build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Build Debug \\w STL",
+      "type": "shell",
+      "command": "cmake -B build -DCMAKE_BUILD_TYPE=Debug -DENABLE_STL_DEBUG=ON && cmake --build build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Clear Logs",
+      "type": "shell",
+      "command": "rm -r ./logs/*",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Release",
+      "type": "shell",
+      "command": "cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "valgrind",
+      "type": "shell",
+      "command": "valgrind",
+      "args": [
+        "--leak-check=full",
+        "--track-origins=yes",
+        "${workspaceFolder}/build/Kitagawa"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "dependsOn": [
+        "Build Debug"
+      ],
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "clear": true,
+        "panel": "dedicated",
+        "showReuseMessage": false
+      },
+    }
+  ]
+}
