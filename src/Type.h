@@ -16,3 +16,14 @@ struct AABB {
            y + h > aabb.y;
   }
 };
+
+enum class Animation : uint32_t { UNSET = 0, IDLE, WALK, RUN, JUMP, SIT, EXTRA };
+
+enum class State : uint32_t {
+  IDLING = 0,
+  WALKING,
+  RUNNING,
+  SITTING,
+  FALLING,
+  JUMPING
+};

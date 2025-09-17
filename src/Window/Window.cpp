@@ -22,11 +22,16 @@ void main()
 static const char *fragmentShaderT = R"(
 #version 110
 varying vec2 TexCoord;
+uniform bool uFlipX;
 uniform sampler2D m_Texture;
 void main()
 {
-    vec2 flippedUV = vec2(TexCoord.x, 1.0 - TexCoord.y);
-    vec4 texColor = texture2D(m_Texture, flippedUV);
+    vec2 uv = vec2(TexCoord.x, 1.0 - TexCoord.y);
+
+    if (uFlipX)
+    uv.x = 1.0 - uv.x;
+
+    vec4 texColor = texture2D(m_Texture, uv);
 
     // float threshold = 0.05;
     // vec3 target = vec3(252.0/255.0, 247.0/255.0, 252.0/255.0);
@@ -167,7 +172,11 @@ void Window::present(const std::vector<uint8_t> &buffer, uint32_t width,
   glClear(GL_COLOR_BUFFER_BIT);
 
   glUseProgram(m_Program);
+
+  glUniform1i(glGetUniformLocation(m_Program, "uFlipX"), u_FlipX);
+
   glBindTexture(GL_TEXTURE_2D, m_Texture);
+
   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
   glfwSwapBuffers(m_Window);

@@ -14,7 +14,9 @@ private:
 
   std::vector<std::vector<Frame>> *m_Animation = nullptr;
 
-  std::unordered_map<std::string, std::vector<std::vector<Frame>>> m_Animations;
+  std::unordered_map<Animation, std::vector<std::vector<Frame>>> m_Animations;
+
+  Animation m_CurrentAnimation = Animation::UNSET;
 
   uint32_t m_Frame = 0;
 
@@ -31,10 +33,10 @@ public:
 
   Frame &getFrame() { return m_Animation->at(m_Variation)[m_Frame]; };
 
-  void setAnimation(const std::string &name, uint32_t variation = 0);
+  void setAnimation(Animation animation, uint32_t variation = 0);
 
   void addAnimation(
-      const std::pair<std::string, std::vector<std::vector<Frame>>> &animation);
+      const std::pair<Animation, std::vector<std::vector<Frame>>> &animation);
 
   void setWindow(Window *window) { m_Window = window; }
 };

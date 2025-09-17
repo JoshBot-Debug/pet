@@ -41,12 +41,12 @@ int Pet::initialize(int argc, char *argv[]) {
 
   // Load gif animations
   {
-    m_Animate.addAnimation(std::pair{"idle", GIF::load(idle)});
-    m_Animate.addAnimation(std::pair{"walk", GIF::load(walk)});
-    m_Animate.addAnimation(std::pair{"run", GIF::load(run)});
-    m_Animate.addAnimation(std::pair{"jump", GIF::load(jump)});
-    m_Animate.addAnimation(std::pair{"sit", GIF::load(sit)});
-    m_Animate.addAnimation(std::pair{"extra", GIF::load(extra)});
+    m_Animate.addAnimation(std::pair{Animation::IDLE, GIF::load(idle)});
+    m_Animate.addAnimation(std::pair{Animation::WALK, GIF::load(walk)});
+    m_Animate.addAnimation(std::pair{Animation::RUN, GIF::load(run)});
+    m_Animate.addAnimation(std::pair{Animation::JUMP, GIF::load(jump)});
+    m_Animate.addAnimation(std::pair{Animation::SIT, GIF::load(sit)});
+    m_Animate.addAnimation(std::pair{Animation::EXTRA, GIF::load(extra)});
   }
 
   // Main loop
@@ -55,7 +55,10 @@ int Pet::initialize(int argc, char *argv[]) {
 
     m_Animate.setWindow(&w);
 
-    m_Animate.setAnimation("idle");
+    m_Game.setWindow(&w);
+    m_Game.setAnimate(&m_Animate);
+
+    m_Animate.setAnimation(Animation::IDLE);
 
     w.initialize({
         .data = this,
@@ -63,7 +66,21 @@ int Pet::initialize(int argc, char *argv[]) {
     });
 
     while (!w.shouldClose()) {
-      update(w);
+      GLFWwindow *window = w.getWindow();
+
+      auto now = std::chrono::steady_clock::now();
+
+      double deltaTime = 0;
+
+      // Delta time
+      {
+        deltaTime = std::chrono::duration<double>(now - m_LastTime).count();
+        m_LastTime = now;
+      }
+
+      m_Animate.update(deltaTime);
+
+      m_Game.update(deltaTime);
 
       const Frame &frame = m_Animate.getFrame();
       w.present(frame.pixels, frame.width, frame.height);
@@ -71,20 +88,4 @@ int Pet::initialize(int argc, char *argv[]) {
   }
 
   return EXIT_SUCCESS;
-}
-
-void Pet::update(Window &w) {
-  GLFWwindow *window = w.getWindow();
-
-  auto now = std::chrono::steady_clock::now();
-
-  double deltaTime = 0;
-
-  // Delta time
-  {
-    deltaTime = std::chrono::duration<double>(now - m_LastTime).count();
-    m_LastTime = now;
-  }
-
-  m_Animate.update(deltaTime);
 }

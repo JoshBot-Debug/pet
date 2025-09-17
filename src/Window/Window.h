@@ -34,6 +34,9 @@ private:
   Init m_Init;
 
 public:
+  bool u_FlipX = 0;
+
+public:
   Window() = default;
 
   ~Window();

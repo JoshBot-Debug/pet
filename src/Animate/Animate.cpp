@@ -15,33 +15,19 @@ void Animate::update(double deltaTime) {
       m_LastTime = now;
     }
   }
-
-  int winX, winY;
-  glfwGetWindowPos(window, &winX, &winY);
-
-  int winW, winH;
-  glfwGetWindowSize(window, &winW, &winH);
-
-  int gravity = 9;
-
-  AABB floorAABB{0, winH, 1, 1};
-  AABB characterAABB{winX, winY, winW, winH};
-
-  int nX = winX, nY = winY;
-
-  if (!characterAABB.intersects(floorAABB))
-    nY += gravity;
-
-  if (winX != nX || winY != nY)
-    glfwSetWindowPos(window, nX, nY);
 }
 
-void Animate::setAnimation(const std::string &name, uint32_t variation) {
-  m_Animation = &m_Animations.at(name);
+void Animate::setAnimation(Animation animation, uint32_t variation) {
+  if (m_CurrentAnimation == animation)
+    return;
+    
+  m_CurrentAnimation = animation;
+  m_Animation = &m_Animations.at(animation);
   m_Variation = variation;
+  m_Frame = 0;
 }
 
 void Animate::addAnimation(
-    const std::pair<std::string, std::vector<std::vector<Frame>>> &animation) {
+    const std::pair<Animation, std::vector<std::vector<Frame>>> &animation) {
   m_Animations.emplace(animation);
 }
