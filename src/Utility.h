@@ -30,12 +30,3 @@ static std::string getHomeDirectory() {
   struct passwd *pw = getpwuid(getuid());
   return pw ? pw->pw_dir : "";
 }
-
-struct AABB {
-  int x, y, w, h;
-
-  bool intersects(const AABB &aabb) const {
-    return x < aabb.x + aabb.w && x + w > aabb.x && y < aabb.y + aabb.h &&
-           y + h > aabb.y;
-  }
-};

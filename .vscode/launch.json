@@ -6,6 +6,14 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/build/pet",
+      "args": [
+        "--idle", "${workspaceFolder}/assets/idle_1.gif",
+        "--walk", "${workspaceFolder}/assets/walk.gif", "${workspaceFolder}/assets/walk_sniff.gif",
+        "--run", "${workspaceFolder}/assets/run.gif",
+        "--jump", "${workspaceFolder}/assets/jump.gif",
+        "--sit", "${workspaceFolder}/assets/sit.gif",
+        "--extra", "${workspaceFolder}/assets/sniff.gif"
+      ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "externalConsole": false,

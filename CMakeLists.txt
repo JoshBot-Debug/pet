@@ -16,7 +16,7 @@ file(GLOB_RECURSE SRC ${CMAKE_SOURCE_DIR}/src/*.cpp)
 file(GLOB_RECURSE GLAD_SRC ${CMAKE_SOURCE_DIR}/glad/*.c)
 file(GLOB_RECURSE GIF_SRC ${CMAKE_SOURCE_DIR}/giflib/*.c)
 
-add_executable(pet ${SRC} ${COMMON_SRC} ${GLAD_SRC} ${GIF_SRC})
+add_executable(pet ${SRC} ${GLAD_SRC} ${GIF_SRC})
 
 # === Libraries ===
 find_package(PkgConfig REQUIRED)
@@ -37,6 +37,7 @@ target_include_directories(pet PRIVATE
   ${CMAKE_SOURCE_DIR}/src
   ${CMAKE_SOURCE_DIR}/glad/include
   ${CMAKE_SOURCE_DIR}/giflib/include
+  ${CMAKE_SOURCE_DIR}/cli11/include
 )
 
 # === Optional: ccache (speed up rebuilds) ===
